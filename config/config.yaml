@@ -2,5 +2,5 @@ db:
     username: "admin"
     host: "localhost"
     port: "5432"
-    dbname: "authdb"
+    dbname: "testdb"
     sslmode: "disable"

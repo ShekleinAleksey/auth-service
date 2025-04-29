@@ -4,6 +4,9 @@ import (
 	"log"
 	"os"
 
+	"github.com/ShekleinAleksey/auth-service/internal/handler"
+	"github.com/ShekleinAleksey/auth-service/internal/repository"
+	"github.com/ShekleinAleksey/auth-service/internal/service"
 	postgres "github.com/ShekleinAleksey/auth-service/pkg"
 	"github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"
@@ -45,37 +48,17 @@ func Run() {
 	}
 	defer db.Close()
 
-	// logrus.Info("Initializing repository...")
-	// repos := repository.NewRepository(db)
-	// logrus.Info("Initializing service...")
-	// services := service.NewService(repos)
-	// logrus.Info("Initializing handler...")
-	// handlers := handler.NewHandler(services)
+	logrus.Info("Initializing repository...")
+	repos := repository.NewRepository(db)
+	logrus.Info("Initializing service...")
+	services := service.NewService(repos)
+	logrus.Info("Initializing handler...")
+	handlers := handler.NewHandler(services)
 
-	// router := handlers.InitRoutes()
+	router := handlers.InitRoutes()
 
-	// certManager := autocert.Manager{
-	// 	Prompt:     autocert.AcceptTOS,
-	// 	HostPolicy: autocert.HostWhitelist("95.174.91.82", "www.95.174.91.82"),
-	// 	Cache:      autocert.DirCache("certs"), // Папка для хранения сертификатов
-	// }
-
-	// server := &http.Server{
-	// 	Addr:    ":443",
-	// 	Handler: router,
-	// 	TLSConfig: &tls.Config{
-	// 		GetCertificate: certManager.GetCertificate,
-	// 	},
-	// }
-	// go func() {
-	// 	// Перенаправление HTTP на HTTPS
-	// 	log.Fatal(http.ListenAndServe(":80", certManager.HTTPHandler(nil)))
-	// }()
-
-	// logrus.Info("Starting server...")
-	// server.ListenAndServeTLS("", "")
 	logrus.Info("Starting server...")
-	// router.Run(":8080")
+	router.Run(":8080")
 }
 
 func initConfig() error {
