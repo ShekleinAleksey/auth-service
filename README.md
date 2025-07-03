@@ -1,1 +1,5 @@
-# auth-service
+# Сервис аутентификации
+# Технологии:
+- Go,
+- PostgreSQL,
+- Docker.
