@@ -1,0 +1,29 @@
+version: '3.8' 
+
+services:
+  auth-service:
+    build: .  
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_HOST=db 
+      - DB_PORT=5432
+      - DB_USER=admin
+      - DB_PASSWORD=root123
+      - DB_NAME=testdb
+    depends_on:
+      - db
+    volumes:
+      - ./config:/app/config:ro
+
+  db:
+    image: postgres:15-alpine 
+    environment:
+      POSTGRES_USER: admin  
+      POSTGRES_PASSWORD: root123  
+      POSTGRES_DB: testdb 
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
